@@ -1,0 +1,325 @@
+Copyright 1994, 1995, 1996, 1999, 2000, 2001, 2002 Free Software
+Foundation, Inc.
+
+   This file is free documentation; the Free Software Foundation gives
+unlimited permission to copy, distribute and modify it.
+
+
+Perftools-Specific Install Notes
+================================
+
+Perftools right now has only been tested on linux systems, both 32-bit
+and 64-bit.  tcmalloc_minimal, the basic memory-allocation library,
+may also work on *BSD systems.  However, the advanced tools, including
+the cpu-profiler, heap-profiler, and heap-checker, have quite a bit of
+linux- and x86-specific code, and are unlikely to work on other
+architectures.
+
+
+*** NOTE FOR 64-BIT LINUX SYSTEMS
+
+   The glibc built-in stack-unwinder on 64-bit systems has some
+problems with the perftools libraries.  (In particular, the cpu/heap
+profiler may be in the middle of malloc, holding some malloc related
+locks when they invoke the stack unwinder.  The built-in
+stack-unwinder may call malloc recursively, which may require the
+thread to acquire a lock it already holds: deadlock.)
+
+   For that reason, if you use a 64-bit system, we strongly recommend
+you install libunwind before trying to configure or install google
+perftools.  libunwind can be found at
+
+   http://download.savannah.nongnu.org/releases/libunwind/libunwind-snap-070410.tar.gz
+
+   Even if you already have libunwind installed, you will probably
+still need to install from the snapshot to get the latest version.
+
+   CAUTION: if you install libunwind from the url above, be aware that
+you may have trouble if you try to statically link your binary with
+pertools: that is, if you link with 'gcc -static -lgcc_eh ...'.  This
+is because both libunwind and libgcc implement the same C++ exception
+handling APIs, but they implement them differently on some platforms.
+This is not likely to be a problem on ia64, but may be on x86-64.
+Using -static is rare, though, so unless you know this will affect you
+it probably won't.
+
+   If you cannot or do not wish to install libunwind, you can still
+try to use the built-in stack-unwinder.  The built-in stack-unwinder
+requires that your application, the tcmalloc library, and system
+libraries like libc, all be compiled with a frame pointer.  This is
+*not* the default for x86-64.
+
+   If you are on x86-64 system, know that you have a set of system
+libraries with frame-pointers enabled, and compile all your
+applications with -fno-omit-frame-pointer, then you can enable the
+built-in perftools stack-unwinder by passing the
+--enable-frame-pointers flag to configure.
+
+   Even with the use of libunwind, there are still known problems
+with stack-unwinding on 64-bit systems, particularly x86-64.  See
+the "64-BIT ISSUES" section in README.
+
+
+*** NOTE FOR *BSD SYSTEMS
+
+   This code does not yet run fully on *BSD systems such as FreeBSD,
+but it may not be that far away.  We've gotten the basic tcmalloc
+library, tcmalloc_minimal, to compile and run on a FreeBSD 6.0 system.
+To compile only tcmalloc_minimal:
+   % make tcmalloc_minimal_unittest tcmalloc_minimal_large_unittest
+   % ./tcmalloc_minimal_unittest    # should say PASS if all goes well!
+   % ./tcmalloc_minimal_large_unittest
+
+   The cpu-profiler, heap-profiler, and heap-checker all depend on
+Linux kernel-specific syscalls, and will be harder to port.  However,
+tcmalloc_minimal.so itself is perfectly usable as a malloc/new
+replacement.
+
+
+*** NOTE FOR SOLARIS SYSTEMS
+
+   This code does not yet run fully on Solaris systems such as Solaris
+10, but we've gotten the basic tcmalloc library, tcmalloc_minimal,
+to compile and run on a Solaris 10 6/06 system.  Note that this uses
+g++ rather than the Sun C++ compiler; porting to Sun's cc may be a
+significantly more difficult task.  To compile only tcmalloc_minimal:
+   % PATH=${PATH}:/usr/sfw/bin/:/usr/ccs/bin ./configure LDFLAGS="-Lsrc/solaris -lrt"
+   % PATH=${PATH}:/usr/sfw/bin/:/usr/ccs/bin make -k tcmalloc_minimal_unittest tcmalloc_minimal_large_unittest
+   % ./tcmalloc_minimal_unittest    # should say PASS if all goes well!
+   % ./tcmalloc_minimal_large_unittest
+
+   If you're curious in the details of these commands: the PATH allows
+use of gcc, and the LDFLAGS both works around a Solaris 10 bug (see
+src/solaris/libstdc++.la for more info) and does a cheap hack to
+introduce a needed solaris library.  (This *should* be done as inside
+configure.am.  Maybe one day.)
+
+   The cpu-profiler, heap-profiler, and heap-checker all depend on
+Linux kernel-specific syscalls, and will be harder to port.  However,
+tcmalloc_minimal.so itself is perfectly usable as a malloc/new
+replacement.
+
+
+Basic Installation
+==================
+
+   These are generic installation instructions.
+
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `Makefile' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.  Finally, it creates a shell script `config.status' that
+you can run in the future to recreate the current configuration, and a
+file `config.log' containing compiler output (useful mainly for
+debugging `configure').
+
+   It can also use an optional file (typically called `config.cache'
+and enabled with `--cache-file=config.cache' or simply `-C') that saves
+the results of its tests to speed up reconfiguring.  (Caching is
+disabled by default to prevent problems with accidental use of stale
+cache files.)
+
+   If you need to do unusual things to compile the package, please try
+to figure out how `configure' could check whether to do them, and mail
+diffs or instructions to the address given in the `README' so they can
+be considered for the next release.  If you are using the cache, and at
+some point `config.cache' contains results you don't want to keep, you
+may remove or edit it.
+
+   The file `configure.ac' (or `configure.in') is used to create
+`configure' by a program called `autoconf'.  You only need
+`configure.ac' if you want to change it or regenerate `configure' using
+a newer version of `autoconf'.
+
+The simplest way to compile this package is:
+
+  1. `cd' to the directory containing the package's source code and type
+     `./configure' to configure the package for your system.  If you're
+     using `csh' on an old version of System V, you might need to type
+     `sh ./configure' instead to prevent `csh' from trying to execute
+     `configure' itself.
+
+     Running `configure' takes awhile.  While running, it prints some
+     messages telling which features it is checking for.
+
+  2. Type `make' to compile the package.
+
+  3. Optionally, type `make check' to run any self-tests that come with
+     the package.
+
+  4. Type `make install' to install the programs and any data files and
+     documentation.
+
+  5. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  To also remove the
+     files that `configure' created (so you can compile the package for
+     a different kind of computer), type `make distclean'.  There is
+     also a `make maintainer-clean' target, but that is intended mainly
+     for the package's developers.  If you use it, you may have to get
+     all sorts of other programs in order to regenerate files that came
+     with the distribution.
+
+Compilers and Options
+=====================
+
+   Some systems require unusual options for compilation or linking that
+the `configure' script does not know about.  Run `./configure --help'
+for details on some of the pertinent environment variables.
+
+   You can give `configure' initial values for configuration parameters
+by setting variables in the command line or in the environment.  Here
+is an example:
+
+     ./configure CC=c89 CFLAGS=-O2 LIBS=-lposix
+
+   *Note Defining Variables::, for more details.
+
+Compiling For Multiple Architectures
+====================================
+
+   You can compile the package for more than one kind of computer at the
+same time, by placing the object files for each architecture in their
+own directory.  To do this, you must use a version of `make' that
+supports the `VPATH' variable, such as GNU `make'.  `cd' to the
+directory where you want the object files and executables to go and run
+the `configure' script.  `configure' automatically checks for the
+source code in the directory that `configure' is in and in `..'.
+
+   If you have to use a `make' that does not support the `VPATH'
+variable, you have to compile the package for one architecture at a
+time in the source code directory.  After you have installed the
+package for one architecture, use `make distclean' before reconfiguring
+for another architecture.
+
+Installation Names
+==================
+
+   By default, `make install' will install the package's files in
+`/usr/local/bin', `/usr/local/man', etc.  You can specify an
+installation prefix other than `/usr/local' by giving `configure' the
+option `--prefix=PATH'.
+
+   You can specify separate installation prefixes for
+architecture-specific files and architecture-independent files.  If you
+give `configure' the option `--exec-prefix=PATH', the package will use
+PATH as the prefix for installing programs and libraries.
+Documentation and other data files will still use the regular prefix.
+
+   In addition, if you use an unusual directory layout you can give
+options like `--bindir=PATH' to specify different values for particular
+kinds of files.  Run `configure --help' for a list of the directories
+you can set and what kinds of files go in them.
+
+   If the package supports it, you can cause programs to be installed
+with an extra prefix or suffix on their names by giving `configure' the
+option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
+
+Optional Features
+=================
+
+   Some packages pay attention to `--enable-FEATURE' options to
+`configure', where FEATURE indicates an optional part of the package.
+They may also pay attention to `--with-PACKAGE' options, where PACKAGE
+is something like `gnu-as' or `x' (for the X Window System).  The
+`README' should mention any `--enable-' and `--with-' options that the
+package recognizes.
+
+   For packages that use the X Window System, `configure' can usually
+find the X include and library files automatically, but if it doesn't,
+you can use the `configure' options `--x-includes=DIR' and
+`--x-libraries=DIR' to specify their locations.
+
+Specifying the System Type
+==========================
+
+   There may be some features `configure' cannot figure out
+automatically, but needs to determine by the type of machine the package
+will run on.  Usually, assuming the package is built to be run on the
+_same_ architectures, `configure' can figure that out, but if it prints
+a message saying it cannot guess the machine type, give it the
+`--build=TYPE' option.  TYPE can either be a short name for the system
+type, such as `sun4', or a canonical name which has the form:
+
+     CPU-COMPANY-SYSTEM
+
+where SYSTEM can have one of these forms:
+
+     OS KERNEL-OS
+
+   See the file `config.sub' for the possible values of each field.  If
+`config.sub' isn't included in this package, then this package doesn't
+need to know the machine type.
+
+   If you are _building_ compiler tools for cross-compiling, you should
+use the `--target=TYPE' option to select the type of system they will
+produce code for.
+
+   If you want to _use_ a cross compiler, that generates code for a
+platform different from the build platform, you should specify the
+"host" platform (i.e., that on which the generated programs will
+eventually be run) with `--host=TYPE'.
+
+Sharing Defaults
+================
+
+   If you want to set default values for `configure' scripts to share,
+you can create a site shell script called `config.site' that gives
+default values for variables like `CC', `cache_file', and `prefix'.
+`configure' looks for `PREFIX/share/config.site' if it exists, then
+`PREFIX/etc/config.site' if it exists.  Or, you can set the
+`CONFIG_SITE' environment variable to the location of the site script.
+A warning: not all `configure' scripts look for a site script.
+
+Defining Variables
+==================
+
+   Variables not defined in a site shell script can be set in the
+environment passed to `configure'.  However, some packages may run
+configure again during the build, and the customized values of these
+variables may be lost.  In order to avoid this problem, you should set
+them in the `configure' command line, using `VAR=value'.  For example:
+
+     ./configure CC=/usr/local2/bin/gcc
+
+will cause the specified gcc to be used as the C compiler (unless it is
+overridden in the site shell script).
+
+`configure' Invocation
+======================
+
+   `configure' recognizes the following options to control how it
+operates.
+
+`--help'
+`-h'
+     Print a summary of the options to `configure', and exit.
+
+`--version'
+`-V'
+     Print the version of Autoconf used to generate the `configure'
+     script, and exit.
+
+`--cache-file=FILE'
+     Enable the cache: use and save the results of the tests in FILE,
+     traditionally `config.cache'.  FILE defaults to `/dev/null' to
+     disable caching.
+
+`--config-cache'
+`-C'
+     Alias for `--cache-file=config.cache'.
+
+`--quiet'
+`--silent'
+`-q'
+     Do not print messages saying which checks are being made.  To
+     suppress all normal output, redirect it to `/dev/null' (any error
+     messages will still be shown).
+
+`--srcdir=DIR'
+     Look for the package's source code in directory DIR.  Usually
+     `configure' can determine that directory automatically.
+
+`configure' also accepts some other, not widely useful, options.  Run
+`configure --help' for more details.
+

@@ -1,0 +1,194 @@
+linuxthreads.lo linuxthreads.o: src/base/linuxthreads.c \
+  src/base/linuxthreads.h /usr/include/asm/stat.h /usr/include/sched.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/gnu/stubs.h /usr/include/bits/types.h \
+  /usr/include/bits/wordsize.h \
+  /usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/stddef.h \
+  /usr/include/bits/typesizes.h /usr/include/time.h \
+  /usr/include/bits/sched.h /usr/include/signal.h \
+  /usr/include/bits/sigset.h /usr/include/bits/signum.h \
+  /usr/include/bits/siginfo.h /usr/include/bits/sigaction.h \
+  /usr/include/bits/sigcontext.h /usr/include/asm/sigcontext.h \
+  /usr/include/bits/sigstack.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sigthread.h /usr/include/stdlib.h \
+  /usr/include/sys/types.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/time.h \
+  /usr/include/sys/sysmacros.h /usr/include/alloca.h \
+  /usr/include/string.h /usr/include/bits/string.h \
+  /usr/include/bits/string2.h /usr/include/sys/socket.h \
+  /usr/include/sys/uio.h /usr/include/bits/uio.h \
+  /usr/include/bits/socket.h \
+  /usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/limits.h \
+  /usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/syslimits.h \
+  /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+  /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+  /usr/include/bits/posix2_lim.h /usr/include/bits/sockaddr.h \
+  /usr/include/asm/socket.h /usr/include/asm/sockios.h \
+  /usr/include/sys/wait.h /usr/include/sys/resource.h \
+  /usr/include/bits/resource.h /usr/include/bits/waitflags.h \
+  /usr/include/bits/waitstatus.h /usr/include/asm/fcntl.h \
+  /usr/include/asm/posix_types.h /usr/include/asm/types.h \
+  /usr/include/linux/dirent.h src/base/linux_syscall_support.h \
+  /usr/include/errno.h /usr/include/bits/errno.h \
+  /usr/include/linux/errno.h /usr/include/asm/errno.h \
+  /usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/stdarg.h \
+  /usr/include/sys/ptrace.h /usr/include/sys/time.h \
+  /usr/include/syscall.h /usr/include/sys/syscall.h \
+  /usr/include/asm/unistd.h /usr/include/bits/syscall.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/linux/unistd.h src/base/thread_lister.h \
+  src/base/linux_syscall_support.h
+
+src/base/linuxthreads.h:
+
+/usr/include/asm/stat.h:
+
+/usr/include/sched.h:
+
+/usr/include/features.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/stddef.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/time.h:
+
+/usr/include/bits/sched.h:
+
+/usr/include/signal.h:
+
+/usr/include/bits/sigset.h:
+
+/usr/include/bits/signum.h:
+
+/usr/include/bits/siginfo.h:
+
+/usr/include/bits/sigaction.h:
+
+/usr/include/bits/sigcontext.h:
+
+/usr/include/asm/sigcontext.h:
+
+/usr/include/bits/sigstack.h:
+
+/usr/include/bits/pthreadtypes.h:
+
+/usr/include/bits/sigthread.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/endian.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/sys/select.h:
+
+/usr/include/bits/select.h:
+
+/usr/include/bits/time.h:
+
+/usr/include/sys/sysmacros.h:
+
+/usr/include/alloca.h:
+
+/usr/include/string.h:
+
+/usr/include/bits/string.h:
+
+/usr/include/bits/string2.h:
+
+/usr/include/sys/socket.h:
+
+/usr/include/sys/uio.h:
+
+/usr/include/bits/uio.h:
+
+/usr/include/bits/socket.h:
+
+/usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/limits.h:
+
+/usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/bits/posix1_lim.h:
+
+/usr/include/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/bits/posix2_lim.h:
+
+/usr/include/bits/sockaddr.h:
+
+/usr/include/asm/socket.h:
+
+/usr/include/asm/sockios.h:
+
+/usr/include/sys/wait.h:
+
+/usr/include/sys/resource.h:
+
+/usr/include/bits/resource.h:
+
+/usr/include/bits/waitflags.h:
+
+/usr/include/bits/waitstatus.h:
+
+/usr/include/asm/fcntl.h:
+
+/usr/include/asm/posix_types.h:
+
+/usr/include/asm/types.h:
+
+/usr/include/linux/dirent.h:
+
+src/base/linux_syscall_support.h:
+
+/usr/include/errno.h:
+
+/usr/include/bits/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/asm/errno.h:
+
+/usr/local/lib/gcc/i686-pc-linux-gnu/4.0.2/include/stdarg.h:
+
+/usr/include/sys/ptrace.h:
+
+/usr/include/sys/time.h:
+
+/usr/include/syscall.h:
+
+/usr/include/sys/syscall.h:
+
+/usr/include/asm/unistd.h:
+
+/usr/include/bits/syscall.h:
+
+/usr/include/unistd.h:
+
+/usr/include/bits/posix_opt.h:
+
+/usr/include/bits/confname.h:
+
+/usr/include/getopt.h:
+
+/usr/include/linux/unistd.h:
+
+src/base/thread_lister.h:
+
+src/base/linux_syscall_support.h:

@@ -1,0 +1,19 @@
+#! /bin/sh
+
+case "$OSTYPE" in
+[Ll]inux*)
+  echo "Compiling for Linux"
+  g++  -DUSE_MALLOC_LOCK=1 -pipe -march=pentium4 -O3 -finline-limit=65000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I../../heaplayers -D_REENTRANT=1 -shared libdlmalloc.cpp dlmalloc.c -o libdlmalloc.so;;
+solaris)
+  echo "Compiling for Solaris"
+  #CC -xildoff -native -noex -xipo=2 -xO5 -mt -DNDEBUG -I. -I.. -D_REENTRANT=1 -G -PIC libdlmalloc.cpp -o libdlmalloc.so;;
+#  g++ -pipe -DNDEBUG -I. -I.. -D_REENTRANT=1 -fPIC -shared libdlmalloc.cpp -o libdlmalloc.so;;
+  gcc -DUSE_MALLOC_LOCK=1 -fPIC -pipe -mcpu=ultrasparc -O3 -finline-limit=5000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I.. -D_REENTRANT=1 -c dlmalloc.c
+   g++ -fPIC -pipe -mcpu=ultrasparc -O3 -finline-limit=5000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I../../heaplayers -D_REENTRANT=1 -shared libdlmalloc.cpp dlmalloc.o -o libdlmalloc.so;;
+#  g++ -pipe -mcpu=ultrasparc -O3 -finline-limit=65000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I.. -D_REENTRANT=1 -shared libdlmalloc.cpp -o libdlmalloc.so;;
+*)
+  echo "hmmm"
+esac
+
+
+

@@ -1,0 +1,5 @@
+#g++ -I../../heaplayers -g -O3 -DNDEBUG -c libphk.cpp
+# g++ -O3 -DNDEBUG -c sealer.cpp
+gcc -g -O3 -DNDEBUG -shared phkmalloc_linux.c -o libphk.so -ldl
+#g++ -shared -O3 phkmalloc_linux.o sealer.o libphk.o -o libphk.so -ldl
+#g++ -shared -O3 -g phkmalloc_linux.o libphk.o -o libphk.so -ldl
