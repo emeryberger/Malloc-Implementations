@@ -1,0 +1,39 @@
+Streamflow
+http://www.cs.wm.edu/streamflow
+
+---
+Project contributors
+---
+	Scott Schneider, scotts@cs.wm.edu
+	Christos Antonopoulos, cda@cs.wm.edu
+	Dimitrios Nikolopoulos, dsn@cs.wm.edu
+
+---
+Notes
+---
+
+Compiling:
+	- In the Makefile, define a META_METHOD as one of HEADERS,
+	  BIBOP or RADIX_TREE. All architectures support HEADERS. Only 
+	  32-bit architectures support BIBOP, and only 64-bit architectures
+	  support RADIX_TREE.
+	- In the Makefile, define ASM as either x86 or ppc64. These are the 
+	  only supported architectures at this time.
+
+gcc 3.3.4:
+	- Streamflow does not compile with gcc 3.3.4; it causes an internal 
+	  compiler error when full optimizations are turned on. It has been 
+	  successfuly compiled with gcc 4.0.2 and gcc 3.4.5.
+
+Superpages:
+	- Streamflow expects superpages to be mounted on /mnt/huge.
+	- Multiple processes can use superpages, but they communicate 
+	  through the file system. Files created in /tmp/supermap are 
+	  considered legal superpage names. Successfuly unlinking a file 
+	  in /tmp/supermap claims ownership of that file name, and allows 
+	  a process to use it in /mnt/huge. Files must be recreated on 
+	  each subsequent run.
+
+Machine dependent files:
+	- atomic.h and bitops.h are taken from the Linux kernel source, 
+	  with minor modifications.

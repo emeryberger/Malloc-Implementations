@@ -1,0 +1,44 @@
+2002-11-18  Wolfram Gloger  <wg@malloc.de>
+
+	* malloc/arena.c
+	(ptmalloc_lock_all, ptmalloc_unlock_all, ptmalloc_unlock_all2): Do
+	nothing if not initialized.  Bug report from Marcus Brinkmann
+	<Marcus.Brinkmann@ruhr-uni-bochum.de>.
+
+2002-10-07  Wolfram Gloger  <wg@malloc.de>
+
+	* malloc/malloc.c (sYSMALLOc): Only check for breakage due
+	to foreign sbrk()'s if arena is contiguous.  Bug report from
+	Bruno Haible <bruno@clisp.org>.
+
+2002-07-11  Wolfram Gloger  <wmglo@dent.med.uni-muenchen.de>
+
+	* malloc/hooks.c: typo fix in NO_THREADS case, realloc_check
+	fix in HAVE_MREMAP case.
+
+2002-06-11  Wolfram Gloger  <wg@malloc.de>
+
+	* malloc/malloc.c: Fix error path when new_heap() returns NULL.
+	Reported by Michael Meissner <meissner@redhat.com>.
+
+2002-03-29  Wolfram Gloger  <wg@malloc.de>
+
+	* malloc/malloc.c: Add short description and prototypes for
+	malloc_get_state, malloc_set_state and posix_memalign, for
+	consistency and to avoid warnings with -Wstrict-prototypes.
+	Reported by Andreas Jaeger <aj@suse.de>.
+
+2002-03-13  Wolfram Gloger  <wg@malloc.de>
+
+	* malloc/malloc.c (sYSMALLOc): Don't change brk if mmap
+	failed.
+
+2002-01-18  Wolfram Gloger  <wg@malloc.de>
+
+	* malloc/malloc.c: Rewrite, adapted from Doug Lea's malloc-2.7.0.c.
+	* malloc/malloc.h: Likewise.
+	* malloc/arena.c: New file.
+	* malloc/hooks.c: New file.
+	* malloc/tst-mallocstate.c: New file.
+	* malloc/Makefile: Add new testcase tst-mallocstate.
+	Add arena.c and hooks.c to distribute.  Fix commented CPPFLAGS.

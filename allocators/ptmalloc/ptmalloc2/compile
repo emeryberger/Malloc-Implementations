@@ -1,0 +1,19 @@
+#! /bin/sh
+
+case "$OSTYPE" in
+[Ll]inux*)
+  echo "Compiling for Linux"
+  g++ -pipe -march=pentiumpro -O3 -finline-limit=65000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I.. -D_REENTRANT=1 -shared malloc.c -o libptmalloc.so;;
+solaris)
+  echo "Compiling for Solaris"
+  #CC -xildoff -native -noex -xipo=2 -xO5 -mt -DNDEBUG -I. -I.. -D_REENTRANT=1 -G -PIC malloc.c -o libptmalloc.so;;
+#  g++ -pipe -DNDEBUG -I. -I.. -D_REENTRANT=1 -fPIC -shared malloc.c -o libptmalloc.so;;
+  gcc -DMALLOC_HOOKS -DUSE_PTHREADS=1 -D_REENTRANT -DUSE_TSD_DATA_HACK -fPIC -pipe -march=ultrasparc -O3 -finline-limit=10000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I.. -c malloc.c
+  g++ -fPIC -pipe -march=ultrasparc -O3 -finline-limit=10000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I.. -I../../heaplayers -D_REENTRANT=1 -shared malloc.c -o libptmalloc.so;;
+#  g++ -pipe -march=ultrasparc -O3 -finline-limit=10000 -fkeep-inline-functions -finline-functions -ffast-math -fomit-frame-pointer -DNDEBUG  -I. -I.. -D_REENTRANT=1 -shared malloc.c -o libptmalloc.so -lpthread;;
+*)
+  echo "hmmm"
+esac
+
+
+
