@@ -472,12 +472,12 @@ size_t init_memory_pool(size_t mem_pool_size, void *mem_pool)
     tlsf = (tlsf_t *) mem_pool;
     /* Check if already initialised */
     if (tlsf->tlsf_signature == TLSF_SIGNATURE) {
-        mp = mem_pool;
+        mp = (char *) mem_pool;
         b = GET_NEXT_BLOCK(mp, ROUNDUP_SIZE(sizeof(tlsf_t)));
         return b->size & BLOCK_SIZE;
     }
 
-    mp = mem_pool;
+    mp = (char *) mem_pool;
 
     /* Zeroing the memory pool */
     memset(mem_pool, 0, sizeof(tlsf_t));
