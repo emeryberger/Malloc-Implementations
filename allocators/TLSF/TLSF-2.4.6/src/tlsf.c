@@ -67,7 +67,7 @@
 #endif
 
 #ifndef USE_MMAP
-#define	USE_MMAP 	(0)
+#define	USE_MMAP 	(1)
 #endif
 
 #ifndef USE_SBRK
