@@ -1,0 +1,56 @@
+Streamflow
+http://www.cs.vt.edu/~scschnei/streamflow
+
+---
+Project contributors
+---
+	Scott Schneider, scschnei@cs.vt.edu
+	Christos Antonopoulos, cda@cs.wm.edu
+	Dimitrios Nikolopoulos, dsn@cs.vt.edu
+
+---
+Copyright & License
+---
+Copyright (C) 2007  Scott Schneider, Christos Antonopoulos 
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
+The full license can be found at:
+http://www.gnu.org/copyleft/lesser.html
+
+---
+Notes
+---
+
+Compiling:
+	- In the Makefile, define a META_METHOD as one of HEADERS,
+	  BIBOP or RADIX_TREE. All architectures support HEADERS. Only 
+	  32-bit architectures support BIBOP, and only 64-bit architectures
+	  support RADIX_TREE.
+	- In the Makefile, define ASM as x86, ppc64 or ia64. These are the 
+	  only supported architectures at this time. Adding additional 
+	  architectures requires changing the defintions at the top of 
+	  streamflow.h, and implementing the correct atomic operations in 
+	  atomic.h and bitops.h.
+
+gcc 3.3.4:
+	- Streamflow does not compile with gcc 3.3.4; it causes an internal 
+	  compiler error when full optimizations are turned on. It has been 
+	  successfuly compiled with gcc 4.0.2 and gcc 3.4.5.
+
+Machine dependent files:
+	- atomic.h and bitops.h are taken from the Linux kernel source, 
+	  with minor modifications.
+
