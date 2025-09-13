@@ -1,0 +1,15 @@
+[submodule "allocators/jemalloc"]
+	path = allocators/jemalloc
+	url = https://github.com/facebook/jemalloc
+[submodule "allocators/mimalloc"]
+	path = allocators/mimalloc
+	url = https://github.com/microsoft/mimalloc
+[submodule "allocators/Hoard"]
+	path = allocators/Hoard
+	url = https://github.com/emeryberger/Hoard
+[submodule "allocators/DieHard"]
+	path = allocators/DieHard
+	url = https://github.com/emeryberger/DieHard
+[submodule "allocators/mesh"]
+	path = allocators/mesh
+	url = https://github.com/plasma-umass/mesh
